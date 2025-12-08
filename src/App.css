@@ -1,0 +1,108 @@
+.app {
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.app[data-theme='light'] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --text-primary: #1a202c;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --accent-1: #667eea;
+  --accent-2: #764ba2;
+  --accent-3: #f093fb;
+}
+
+.app[data-theme='dark'] {
+  --bg-primary: #0f1419;
+  --bg-secondary: #1a1f2e;
+  --bg-tertiary: #242b3d;
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --border-color: #334155;
+  --accent-1: #667eea;
+  --accent-2: #764ba2;
+  --accent-3: #f093fb;
+}
+
+/* Dark mode styles for components */
+.app.dark .navbar {
+  background: rgba(26, 31, 46, 0.95) !important;
+}
+
+.app.dark .stat-card {
+  background: rgba(30, 40, 55, 0.95) !important;
+  color: #f1f5f9;
+}
+
+.app.dark .stat-card h3 {
+  color: #cbd5e1 !important;
+}
+
+.app.dark .mood-content {
+  background: rgba(30, 40, 55, 0.95) !important;
+  color: #f1f5f9;
+}
+
+.app.dark .modes-breakdown {
+  background: rgba(30, 40, 55, 0.95) !important;
+  color: #f1f5f9;
+}
+
+.app.dark .soundscapes-section {
+  background: rgba(30, 40, 55, 0.95) !important;
+  color: #f1f5f9;
+}
+
+.app.dark .affirmation-card {
+  background: rgba(30, 40, 55, 0.95) !important;
+  color: #f1f5f9;
+}
+
+.app.dark .form-group label {
+  color: #f1f5f9 !important;
+}
+
+.app.dark .form-group input {
+  background: rgba(50, 60, 80, 0.7) !important;
+  color: #f1f5f9 !important;
+  border-color: #334155 !important;
+}
+
+.app.dark .form-group input::placeholder {
+  color: #999 !important;
+}
+
+.app.dark .form-group input:focus {
+  background: rgba(50, 60, 80, 0.9) !important;
+  border-color: #667eea !important;
+}
+
+.app.dark .mode-name {
+  color: #f1f5f9 !important;
+}
+
+.app.dark .sound-name {
+  color: #f1f5f9 !important;
+}
+
+.app.dark .breathing-exercise,
+.app.dark .dashboard,
+.app.dark .mood-tracker {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #2d1b4e 100%) !important;
+}
+
+.app-loading {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
