@@ -9,6 +9,12 @@ import Navbar from './components/Navbar';
 import Dashboard from './components/Dashboard';
 import BreathingExercise from './components/BreathingExercise';
 import MoodTracker from './components/MoodTracker';
+import Achievements from './components/Achievements';
+import Journal from './components/Journal';
+import Goals from './components/Goals';
+import WeeklyReport from './components/WeeklyReport';
+import AnimatedQuotes from './components/AnimatedQuotes';
+import Reminders from './components/Reminders';
 
 function App() {
   const { user, token, login, logout, setUser } = useAuth();
@@ -76,6 +82,36 @@ function App() {
           <Route 
             path="/mood" 
             element={token ? <MoodTracker /> : <Navigate to="/auth" />} 
+          />
+          
+          <Route 
+            path="/achievements" 
+            element={token ? <Achievements /> : <Navigate to="/auth" />} 
+          />
+          
+          <Route 
+            path="/journal" 
+            element={token ? <Journal /> : <Navigate to="/auth" />} 
+          />
+          
+          <Route 
+            path="/goals" 
+            element={token ? <Goals /> : <Navigate to="/auth" />} 
+          />
+          
+          <Route 
+            path="/progress" 
+            element={token ? <WeeklyReport /> : <Navigate to="/auth" />} 
+          />
+          
+          <Route 
+            path="/quotes" 
+            element={token ? <AnimatedQuotes /> : <Navigate to="/auth" />} 
+          />
+          
+          <Route 
+            path="/reminders" 
+            element={token ? <Reminders /> : <Navigate to="/auth" />} 
           />
           
           <Route 
