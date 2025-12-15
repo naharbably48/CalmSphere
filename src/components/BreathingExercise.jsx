@@ -1,9 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './BreathingExercise.css';
 import BreathingCircle from './BreathingCircle';
 import { breathingModes, soundscapes } from '../utils/constants';
 import { sessionService } from '../services/api';
 import useTheme from '../hooks/useTheme';
+
+// Sound URLs (using free ambient sound URLs)
+const soundUrls = {
+  'Rain': 'https://www.soundjay.com/nature/rain-03.mp3',
+  'Ocean': 'https://www.soundjay.com/nature/ocean-wave-1.mp3',
+  'Forest': 'https://www.soundjay.com/nature/forest-1.mp3',
+  'Wind': 'https://www.soundjay.com/nature/wind-1.mp3',
+  'Fire': 'https://www.soundjay.com/nature/campfire-1.mp3',
+  'None': null
+};
 
 const BreathingExercise = () => {
   const { theme } = useTheme();
@@ -17,9 +27,64 @@ const BreathingExercise = () => {
   const [showAnimation, setShowAnimation] = useState(true);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [volume, setVolume] = useState(0.5);
+  const [isPlaying, setIsPlaying] = useState(false);
+  
+  const audioRef = useRef(null);
 
   const mode = breathingModes[selectedMode];
   const totalCycleDuration = mode.inhale + mode.hold + mode.exhale + mode.pause;
+
+  // Initialize audio
+  useEffect(() => {
+    audioRef.current = new Audio();
+    audioRef.current.loop = true;
+    audioRef.current.volume = volume;
+    
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  // Handle sound selection
+  useEffect(() => {
+    if (!audioRef.current) return;
+    
+    if (selectedSound === 'None' || !soundUrls[selectedSound]) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+      return;
+    }
+    
+    audioRef.current.src = soundUrls[selectedSound];
+    if (isActive) {
+      audioRef.current.play().catch(e => console.log('Audio play failed:', e));
+      setIsPlaying(true);
+    }
+  }, [selectedSound, isActive]);
+
+  // Handle volume changes
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
+  }, [volume]);
+
+  // Start/stop sound with session
+  useEffect(() => {
+    if (!audioRef.current) return;
+    
+    if (isActive && selectedSound !== 'None' && soundUrls[selectedSound]) {
+      audioRef.current.play().catch(e => console.log('Audio play failed:', e));
+      setIsPlaying(true);
+    } else {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  }, [isActive]);
 
   // Breathing cycle effect
   useEffect(() => {
@@ -193,6 +258,23 @@ const BreathingExercise = () => {
               </button>
             ))}
           </div>
+          
+          {/* Volume Control */}
+          {selectedSound !== 'None' && (
+            <div className="volume-control">
+              <span className="volume-icon">🔊</span>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.1"
+                value={volume}
+                onChange={(e) => setVolume(parseFloat(e.target.value))}
+                className="volume-slider"
+              />
+              <span className="volume-value">{Math.round(volume * 100)}%</span>
+            </div>
+          )}
         </div>
 
         {/* Animation Toggle */}
